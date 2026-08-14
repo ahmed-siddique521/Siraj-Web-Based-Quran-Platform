@@ -20,20 +20,44 @@ function QuranPlayer({ verses }) {
             return;
         }
 
-        audio.src = verses[currentIndex].audioUrl;
+        const currentVerse = verses[currentIndex];
 
-        audio.play().catch((error) => {
-            console.log(
-                "Automatic playback blocked:",
-                error
-            );
-        });
+        if (!currentVerse) {
+            return;
+        }
+
+        const audioUrl =
+            `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${currentVerse.globalAyahNumber}.mp3`;
+
+        console.log("QARI: Mishary Rashid Alafasy");
+        console.log("GLOBAL AYAH:", currentVerse.globalAyahNumber);
+        console.log("AUDIO URL:", audioUrl);
+
+        audio.src = audioUrl;
+
+        audio.load();
+
+        audio.oncanplay = () => {
+            audio.play()
+                .then(() => {
+                    console.log("AUDIO PLAYING");
+                })
+                .catch((error) => {
+                    console.log("AUDIO PLAY ERROR:", error);
+                });
+        };
+
+        return () => {
+            audio.oncanplay = null;
+        };
 
     }, [verses, currentIndex]);
 
     const handleEnded = () => {
         if (currentIndex < verses.length - 1) {
-            setCurrentIndex((previous) => previous + 1);
+            setCurrentIndex(
+                (previous) => previous + 1
+            );
         }
     };
 
@@ -46,9 +70,15 @@ function QuranPlayer({ verses }) {
     return (
         <div className="quran-player">
 
-            <h3>
-                Playing Ayah {currentVerse.ayah}
-            </h3>
+            <h3>Now Playing</h3>
+
+            <p>
+                Qari: Mishary Rashid Alafasy
+            </p>
+
+            <p>
+                Ayah: {currentVerse.ayah}
+            </p>
 
             <audio
                 ref={audioRef}
