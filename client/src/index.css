@@ -1,0 +1,64 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f7f6;
+  color: #222;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+  gap: 20px;
+  text-align: center;
+}
+
+.app h1 {
+  font-size: 42px;
+}
+
+.app p {
+  font-size: 18px;
+  color: #666;
+}
+
+.app button {
+  padding: 15px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.verse {
+  width: 90%;
+  max-width: 900px;
+  margin-top: 30px;
+  padding: 30px;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.verse h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.arabic {
+  direction: rtl;
+  font-size: 36px;
+  line-height: 2;
+  margin: 30px 0;
+}
+
+audio {
+  width: 100%;
+  max-width: 600px;
+}
