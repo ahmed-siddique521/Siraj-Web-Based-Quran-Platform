@@ -4,10 +4,15 @@ const API = axios.create({
     baseURL: "http://localhost:5000/api"
 });
 
-export const getVerse = async (surah, ayah) => {
+export const getVerse = async (
+    surah,
+    startAyah,
+    endAyah
+) => {
     const response = await API.post("/quran/verse", {
         surah,
-        ayah
+        startAyah,
+        endAyah
     });
 
     return response.data;

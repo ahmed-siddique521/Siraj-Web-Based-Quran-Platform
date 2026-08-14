@@ -2,17 +2,22 @@ const axios = require("axios");
 
 const getVerse = async (req, res) => {
     try {
-        const { surah, ayah } = req.body;
+        const {
+            surah,
+            startAyah,
+            endAyah
+        } = req.body;
 
-        if (!surah || !ayah) {
+        if (!surah || !startAyah) {
             return res.status(400).json({
                 success: false,
-                message: "Surah and ayah are required"
+                message: "Surah and starting ayah are required"
             });
         }
 
         const surahNumber = Number(surah);
-        const ayahNumber = Number(ayah);
+        const start = Number(startAyah);
+        const end = endAyah ? Number(endAyah) : null;
 
         if (
             !Number.isInteger(surahNumber) ||
@@ -26,41 +31,77 @@ const getVerse = async (req, res) => {
         }
 
         if (
-            !Number.isInteger(ayahNumber) ||
-            ayahNumber < 1
+            !Number.isInteger(start) ||
+            start < 1
         ) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid Ayah number"
+                message: "Invalid starting ayah"
+            });
+        }
+
+        if (
+            end !== null &&
+            (!Number.isInteger(end) || end < start)
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid ending ayah"
             });
         }
 
         const response = await axios.get(
-            `https://api.alquran.cloud/v1/ayah/${surahNumber}:${ayahNumber}/quran-uthmani`
+            `https://api.alquran.cloud/v1/surah/${surahNumber}/editions/quran-uthmani`
         );
 
-        const data = response.data.data;
+        const editions = response.data.data;
 
-        if (!data) {
+        if (!editions || !Array.isArray(editions)) {
             return res.status(404).json({
                 success: false,
-                message: "Verse not found"
+                message: "Surah data not found"
             });
         }
 
-        const audioUrl =
-            `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${data.number}.mp3`;
+        const surahData = editions[0];
+
+        if (!surahData || !surahData.ayahs) {
+            return res.status(404).json({
+                success: false,
+                message: "Surah ayahs not found"
+            });
+        }
+
+        const selectedAyahs = surahData.ayahs.filter(
+            (ayah) =>
+                ayah.numberInSurah >= start &&
+                (end === null || ayah.numberInSurah <= end)
+        );
+
+        if (selectedAyahs.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Ayah not found"
+            });
+        }
+
+        const verses = selectedAyahs.map((ayah) => ({
+            ayah: ayah.numberInSurah,
+            globalAyahNumber: ayah.number,
+            arabicText: ayah.text,
+            audioUrl:
+                `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${ayah.number}.mp3`
+        }));
 
         res.json({
             success: true,
             data: {
-                surah: data.surah.number,
-                surahName: data.surah.englishName,
-                surahArabicName: data.surah.name,
-                ayah: data.numberInSurah,
-                globalAyahNumber: data.number,
-                arabicText: data.text,
-                audioUrl
+                surah: surahData.number,
+                surahName: surahData.englishName,
+                surahArabicName: surahData.name,
+                startAyah: start,
+                endAyah: end || selectedAyahs[selectedAyahs.length - 1].numberInSurah,
+                verses
             }
         });
 
@@ -72,7 +113,7 @@ const getVerse = async (req, res) => {
 
         res.status(500).json({
             success: false,
-            message: "Unable to retrieve Quran verse"
+            message: "Unable to retrieve Quran verses"
         });
     }
 };
