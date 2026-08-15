@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import VoiceButton from "./components/VoiceButton";
 import QuranPlayer from "./components/QuranPlayer";
 import parseCommand from "./utils/commandParser";
 import { getVerse } from "./services/api";
+import WakeWordListener from "./components/WakeWordListener";
 
 function App() {
   const [command, setCommand] = useState("");
@@ -10,7 +11,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleVoiceResult = async (text) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const handleVoiceResult = useCallback(async (text) => {
     setCommand(text);
     setError("");
     setResult(null);
@@ -53,7 +56,7 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   return (
     <div className="app">
@@ -63,6 +66,11 @@ function App() {
       <p>
         Speak the Surah and Ayah you want to listen to.
       </p>
+
+      <WakeWordListener
+        onCommand={handleVoiceResult}
+        isBusy={isPlaying || loading}
+      />
 
       <VoiceButton
         onResult={handleVoiceResult}
@@ -118,6 +126,7 @@ function App() {
 
           <QuranPlayer
             verses={result.verses}
+            onPlaybackChange={setIsPlaying}
           />
 
         </div>
