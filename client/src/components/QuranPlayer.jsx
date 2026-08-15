@@ -1,81 +1,164 @@
 import { useEffect, useRef, useState } from "react";
 
 function QuranPlayer({ verses, onPlaybackChange }) {
+
     const audioRef = useRef(null);
 
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] =
+        useState(0);
+
+    const [isPlaying, setIsPlaying] =
+        useState(false);
+
+
+    // =========================================
+    // RESET WHEN NEW VERSES ARRIVE
+    // =========================================
 
     useEffect(() => {
+
         setCurrentIndex(0);
+
     }, [verses]);
 
+
+    // =========================================
+    // PLAY CURRENT AYAH
+    // =========================================
+
     useEffect(() => {
+
         if (!verses || verses.length === 0) {
             return;
         }
 
-        const audio = audioRef.current;
+
+        const audio =
+            audioRef.current;
 
         if (!audio) {
             return;
         }
 
-        const currentVerse = verses[currentIndex];
+
+        const currentVerse =
+            verses[currentIndex];
+
 
         if (!currentVerse) {
             return;
         }
 
+
         const audioUrl =
             `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${currentVerse.globalAyahNumber}.mp3`;
 
+
         console.log(
-            "Qari: Mishary Rashid Alafasy"
+            "================================="
         );
 
         console.log(
-            "Global Ayah:",
+            "QARI: Mishary Rashid Alafasy"
+        );
+
+        console.log(
+            "CURRENT INDEX:",
+            currentIndex
+        );
+
+        console.log(
+            "AYAH:",
+            currentVerse.ayah
+        );
+
+        console.log(
+            "GLOBAL AYAH:",
             currentVerse.globalAyahNumber
         );
 
         console.log(
-            "Audio URL:",
+            "AUDIO URL:",
             audioUrl
         );
+
+        console.log(
+            "================================="
+        );
+
+
+        audio.pause();
 
         audio.src = audioUrl;
 
         audio.load();
 
-        audio.oncanplay = () => {
-            onPlaybackChange(true);
 
-            audio
-                .play()
-                .then(() => {
-                    console.log(
-                        "AUDIO PLAYING"
-                    );
-                })
-                .catch((error) => {
-                    console.log(
-                        "AUDIO PLAY ERROR:",
-                        error
-                    );
-                });
+        const handleCanPlay = async () => {
+
+            try {
+
+                await audio.play();
+
+                setIsPlaying(true);
+
+                onPlaybackChange(true);
+
+                console.log(
+                    "PLAYING AYAH:",
+                    currentVerse.ayah
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "AUDIO PLAY ERROR:",
+                    error
+                );
+
+                setIsPlaying(false);
+
+                onPlaybackChange(false);
+            }
         };
 
-        audio.onerror = () => {
-            console.log(
-                "AUDIO SOURCE ERROR"
+
+        const handleError = () => {
+
+            console.error(
+                "AUDIO SOURCE ERROR:",
+                audio.error
             );
+
+            setIsPlaying(false);
 
             onPlaybackChange(false);
         };
 
+
+        audio.addEventListener(
+            "canplay",
+            handleCanPlay
+        );
+
+        audio.addEventListener(
+            "error",
+            handleError
+        );
+
+
         return () => {
-            audio.oncanplay = null;
-            audio.onerror = null;
+
+            audio.removeEventListener(
+                "canplay",
+                handleCanPlay
+            );
+
+            audio.removeEventListener(
+                "error",
+                handleError
+            );
+
         };
 
     }, [
@@ -84,30 +167,75 @@ function QuranPlayer({ verses, onPlaybackChange }) {
         onPlaybackChange
     ]);
 
+
+    // =========================================
+    // AYAH FINISHED
+    // =========================================
+
     const handleEnded = () => {
 
-        if (currentIndex < verses.length - 1) {
+        console.log(
+            "AYAH FINISHED:",
+            verses[currentIndex]?.ayah
+        );
+
+
+        if (
+            currentIndex <
+            verses.length - 1
+        ) {
+
+            const nextIndex =
+                currentIndex + 1;
+
+
+            console.log(
+                "MOVING TO NEXT AYAH:",
+                verses[nextIndex]?.ayah
+            );
+
 
             setCurrentIndex(
-                (previous) => previous + 1
+                nextIndex
             );
 
         } else {
 
             console.log(
+                "================================="
+            );
+
+            console.log(
                 "QURAN RECITATION FINISHED"
             );
+
+            console.log(
+                "================================="
+            );
+
+
+            setIsPlaying(false);
 
             onPlaybackChange(false);
         }
     };
 
-    if (!verses || verses.length === 0) {
+
+    // =========================================
+    // NO VERSES
+    // =========================================
+
+    if (
+        !verses ||
+        verses.length === 0
+    ) {
         return null;
     }
 
+
     const currentVerse =
         verses[currentIndex];
+
 
     return (
         <div className="quran-player">
@@ -116,13 +244,16 @@ function QuranPlayer({ verses, onPlaybackChange }) {
                 Now Playing
             </h3>
 
+
             <p>
                 Qari: Mishary Rashid Alafasy
             </p>
 
+
             <p>
                 Ayah: {currentVerse.ayah}
             </p>
+
 
             <audio
                 ref={audioRef}
@@ -130,8 +261,10 @@ function QuranPlayer({ verses, onPlaybackChange }) {
                 onEnded={handleEnded}
             />
 
+
             <p>
-                {currentIndex + 1} of {verses.length}
+                {currentIndex + 1} of{" "}
+                {verses.length}
             </p>
 
         </div>
