@@ -3,7 +3,7 @@ import VoiceButton from "./components/VoiceButton";
 import QuranPlayer from "./components/QuranPlayer";
 import parseCommand from "./utils/commandParser";
 import { getVerse } from "./services/api";
-import WakeWordListener from "./components/WakeWordListener";
+
 
 function App() {
   const [command, setCommand] = useState("");
@@ -67,10 +67,7 @@ function App() {
         Speak the Surah and Ayah you want to listen to.
       </p>
 
-      <WakeWordListener
-        onCommand={handleVoiceResult}
-        isBusy={isPlaying || loading}
-      />
+
 
       <VoiceButton
         onResult={handleVoiceResult}

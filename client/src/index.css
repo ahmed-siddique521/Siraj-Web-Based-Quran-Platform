@@ -74,7 +74,7 @@ button {
   font-family: inherit;
 }
 
-.wake-word+button {
+button {
   display: block;
   margin: 0 auto 30px;
 }
