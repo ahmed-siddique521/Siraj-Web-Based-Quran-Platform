@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 function VoiceButton({ onResult }) {
     const [listening, setListening] = useState(false);
+
+    const recognitionRef = useRef(null);
 
     const startListening = () => {
         const SpeechRecognition =
@@ -10,44 +12,90 @@ function VoiceButton({ onResult }) {
 
         if (!SpeechRecognition) {
             alert(
-                "Speech recognition is not supported in this browser. Please use Google Chrome."
+                "Speech recognition is not supported in this browser."
             );
             return;
         }
 
-        const recognition = new SpeechRecognition();
+        const recognition =
+            new SpeechRecognition();
 
-        recognition.lang = "en-US";
         recognition.continuous = false;
         recognition.interimResults = false;
+        recognition.lang = "en-US";
+
+        recognitionRef.current = recognition;
 
         recognition.onstart = () => {
             setListening(true);
+
+            // Play recording-start sound
+            const sound = new Audio(
+                "/sounds/recording-start.mp3"
+            );
+
+            sound.volume = 0.7;
+
+            sound.play().catch((error) => {
+                console.log(
+                    "Sound playback error:",
+                    error
+                );
+            });
+
+            console.log(
+                "Voice recording started"
+            );
         };
 
         recognition.onresult = (event) => {
-            const text = event.results[0][0].transcript;
+            const transcript =
+                event.results[0][0].transcript;
 
-            console.log("User said:", text);
+            console.log(
+                "Voice command:",
+                transcript
+            );
 
-            onResult(text);
+            onResult(transcript);
         };
 
         recognition.onerror = (event) => {
-            console.log("Speech recognition error:", event.error);
+            console.log(
+                "Speech recognition error:",
+                event.error
+            );
+
             setListening(false);
         };
 
         recognition.onend = () => {
             setListening(false);
+
+            console.log(
+                "Voice recording ended"
+            );
         };
 
-        recognition.start();
+        try {
+            recognition.start();
+        } catch (error) {
+            console.log(
+                "Recognition start error:",
+                error
+            );
+        }
     };
 
     return (
-        <button onClick={startListening}>
-            {listening ? "🎙️ Listening..." : "🎤 Speak"}
+        <button
+            className={`voice-button ${listening ? "listening" : ""
+                }`}
+            onClick={startListening}
+        >
+            {listening
+                ? "🎙️ Listening..."
+                : "🎙️ Speak"}
         </button>
     );
 }
