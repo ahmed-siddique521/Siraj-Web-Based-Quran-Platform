@@ -51,32 +51,71 @@ const getVerse = async (req, res) => {
         }
 
         const response = await axios.get(
-            `https://api.alquran.cloud/v1/surah/${surahNumber}/editions/quran-uthmani`
+            `https://api.alquran.cloud/v1/surah/${surahNumber}/editions/quran-uthmani,en.asad,ur.jalandhry`
         );
 
         const editions = response.data.data;
 
-        if (!editions || !Array.isArray(editions)) {
+        if (
+            !editions ||
+            !Array.isArray(editions) ||
+            editions.length < 3
+        ) {
             return res.status(404).json({
                 success: false,
-                message: "Surah data not found"
+                message: "Quran translations not found"
             });
         }
 
-        const surahData = editions[0];
-
-        if (!surahData || !surahData.ayahs) {
-            return res.status(404).json({
-                success: false,
-                message: "Surah ayahs not found"
-            });
-        }
-
-        const selectedAyahs = surahData.ayahs.filter(
-            (ayah) =>
-                ayah.numberInSurah >= start &&
-                (end === null || ayah.numberInSurah <= end)
+        const arabicData = editions.find(
+            (edition) =>
+                edition.edition?.identifier ===
+                "quran-uthmani"
         );
+
+        const englishData = editions.find(
+            (edition) =>
+                edition.edition?.identifier ===
+                "en.asad"
+        );
+
+        const urduData = editions.find(
+            (edition) =>
+                edition.edition?.identifier ===
+                "ur.jalandhry"
+        );
+
+        if (
+            !arabicData ||
+            !englishData ||
+            !urduData
+        ) {
+            return res.status(404).json({
+                success: false,
+                message: "Required Quran editions not found"
+            });
+        }
+
+        if (
+            !arabicData.ayahs ||
+            !englishData.ayahs ||
+            !urduData.ayahs
+        ) {
+            return res.status(404).json({
+                success: false,
+                message: "Quran ayahs not found"
+            });
+        }
+
+        const selectedAyahs =
+            arabicData.ayahs.filter(
+                (ayah) =>
+                    ayah.numberInSurah >= start &&
+                    (
+                        end === null ||
+                        ayah.numberInSurah <= end
+                    )
+            );
 
         if (selectedAyahs.length === 0) {
             return res.status(404).json({
@@ -85,35 +124,86 @@ const getVerse = async (req, res) => {
             });
         }
 
-        const verses = selectedAyahs.map((ayah) => ({
-            ayah: ayah.numberInSurah,
-            globalAyahNumber: ayah.number,
-            arabicText: ayah.text,
-            audioUrl:
-                `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${ayah.number}.mp3`
-        }));
+        const verses = selectedAyahs.map(
+            (ayah) => {
+
+                const englishAyah =
+                    englishData.ayahs.find(
+                        (item) =>
+                            item.numberInSurah ===
+                            ayah.numberInSurah
+                    );
+
+                const urduAyah =
+                    urduData.ayahs.find(
+                        (item) =>
+                            item.numberInSurah ===
+                            ayah.numberInSurah
+                    );
+
+                return {
+                    ayah: ayah.numberInSurah,
+
+                    globalAyahNumber:
+                        ayah.number,
+
+                    arabicText:
+                        ayah.text,
+
+                    englishTranslation:
+                        englishAyah
+                            ? englishAyah.text
+                            : "",
+
+                    urduTranslation:
+                        urduAyah
+                            ? urduAyah.text
+                            : "",
+
+                    audioUrl:
+                        `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${ayah.number}.mp3`
+                };
+            }
+        );
 
         res.json({
             success: true,
+
             data: {
-                surah: surahData.number,
-                surahName: surahData.englishName,
-                surahArabicName: surahData.name,
-                startAyah: start,
-                endAyah: end || selectedAyahs[selectedAyahs.length - 1].numberInSurah,
+                surah:
+                    arabicData.number,
+
+                surahName:
+                    arabicData.englishName,
+
+                surahArabicName:
+                    arabicData.name,
+
+                startAyah:
+                    start,
+
+                endAyah:
+                    end ||
+                    selectedAyahs[
+                        selectedAyahs.length - 1
+                    ].numberInSurah,
+
                 verses
             }
         });
 
     } catch (error) {
+
         console.error(
             "Quran API Error:",
-            error.response?.data || error.message
+            error.response?.data ||
+            error.message
         );
 
         res.status(500).json({
             success: false,
-            message: "Unable to retrieve Quran verses"
+            message:
+                "Unable to retrieve Quran verses"
         });
     }
 };

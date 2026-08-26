@@ -296,3 +296,50 @@ button:active {
       0 0 0 0 rgba(216, 184, 76, 0);
   }
 }
+
+/* Translations */
+
+.translation {
+  margin-top: 22px;
+  padding: 20px 22px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.translation h4 {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #d8b84c;
+}
+
+.translation p {
+  margin: 0;
+  color: #d3ddd9;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* Urdu */
+
+.urdu-translation {
+  direction: rtl;
+  text-align: right;
+}
+
+.urdu-translation h4 {
+  font-size: 18px;
+}
+
+.urdu-translation p {
+  font-family:
+    "Noto Nastaliq Urdu",
+    "Noto Naskh Arabic",
+    "Segoe UI",
+    sans-serif;
+
+  font-size: 19px;
+  line-height: 2;
+}

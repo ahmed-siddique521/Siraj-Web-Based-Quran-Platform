@@ -118,6 +118,22 @@ function App() {
               <div className="arabic">
                 {verse.arabicText}
               </div>
+
+              <div className="translation english-translation">
+                <h4>English Translation</h4>
+
+                <p>
+                  {verse.englishTranslation}
+                </p>
+              </div>
+
+              <div className="translation urdu-translation">
+                <h4>اردو ترجمہ</h4>
+
+                <p>
+                  {verse.urduTranslation}
+                </p>
+              </div>
             </div>
           ))}
 

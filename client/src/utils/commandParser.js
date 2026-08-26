@@ -1,53 +1,75 @@
 const surahList = {
     "fatiha": 1,
     "al fatiha": 1,
+    "alfatiha": 1,
 
     "baqarah": 2,
     "baqara": 2,
+    "baqrah": 2,
+    "baqra": 2,
     "al baqarah": 2,
     "al baqara": 2,
 
     "imran": 3,
+    "imraan": 3,
     "al imran": 3,
+    "al imraan": 3,
     "aal imran": 3,
+    "aal e imran": 3,
 
     "nisa": 4,
+    "nisah": 4,
+    "nisaa": 4,
     "an nisa": 4,
+    "an nisaa": 4,
 
     "maidah": 5,
+    "maida": 5,
     "maida": 5,
     "al maidah": 5,
     "al maida": 5,
 
     "anam": 6,
+    "anaam": 6,
     "al anam": 6,
+    "al anaam": 6,
 
     "araf": 7,
+    "araaf": 7,
     "al araf": 7,
+    "al araaf": 7,
 
     "anfal": 8,
     "al anfal": 8,
 
     "tawbah": 9,
     "taubah": 9,
+    "toba": 9,
     "at tawbah": 9,
 
     "yunus": 10,
     "younus": 10,
+    "younis": 10,
+    "yunis": 10,
 
     "hud": 11,
 
     "yusuf": 12,
     "yoosuf": 12,
+    "yousuf": 12,
 
-    "ar rad": 13,
     "rad": 13,
+    "raad": 13,
+    "ar rad": 13,
     "ar raad": 13,
 
     "ibrahim": 14,
+    "ibraheem": 14,
+    "ibrahim": 14,
 
-    "al hijr": 15,
     "hijr": 15,
+    "hijar": 15,
+    "al hijr": 15,
 
     "nahl": 16,
     "an nahl": 16,
@@ -55,104 +77,138 @@ const surahList = {
     "isra": 17,
     "al isra": 17,
     "bani israel": 17,
+    "bani israeel": 17,
 
     "kahf": 18,
     "kaahf": 18,
+    "kahaf": 18,
     "al kahf": 18,
 
     "maryam": 19,
+    "mariam": 19,
 
-    "ta ha": 20,
     "taha": 20,
+    "ta ha": 20,
+    "taaha": 20,
 
     "anbiya": 21,
+    "anbiyaa": 21,
     "al anbiya": 21,
 
     "hajj": 22,
+    "haj": 22,
     "al hajj": 22,
 
     "muminun": 23,
     "muminoon": 23,
+    "mominoon": 23,
+    "mominun": 23,
     "al muminun": 23,
 
     "nur": 24,
     "noor": 24,
     "an nur": 24,
+    "an noor": 24,
 
     "furqan": 25,
+    "furqaan": 25,
     "al furqan": 25,
 
     "shuara": 26,
+    "shoara": 26,
     "ash shuara": 26,
 
     "naml": 27,
     "an naml": 27,
 
     "qasas": 28,
+    "qasas": 28,
     "al qasas": 28,
 
     "ankabut": 29,
+    "ankaboot": 29,
     "al ankabut": 29,
 
     "rum": 30,
+    "room": 30,
     "ar rum": 30,
 
     "luqman": 31,
+    "lokman": 31,
 
-    "as sajdah": 32,
     "sajdah": 32,
+    "sajda": 32,
+    "as sajdah": 32,
 
     "ahzab": 33,
+    "ahzaab": 33,
     "al ahzab": 33,
 
     "saba": 34,
+    "sabaa": 34,
 
     "fatir": 35,
+    "faatir": 35,
 
-    "ya seen": 36,
     "yaseen": 36,
     "yasin": 36,
+    "ya seen": 36,
     "ya sin": 36,
     "yaaseen": 36,
+    "yaasin": 36,
+    "yasin": 36,
 
-    "as saffat": 37,
     "saffat": 37,
+    "as saffat": 37,
 
     "sad": 38,
+    "saad": 38,
 
-    "az zumar": 39,
     "zumar": 39,
+    "az zumar": 39,
 
     "ghafir": 40,
+    "gaafir": 40,
     "momin": 40,
+    "mumin": 40,
     "al mumin": 40,
 
     "fussilat": 41,
+    "fussilat": 41,
 
-    "ash shura": 42,
     "shura": 42,
+    "ash shura": 42,
 
     "zukhruf": 43,
+    "zukhraf": 43,
 
-    "ad dukhan": 44,
     "dukhan": 44,
+    "ad dukhan": 44,
 
     "jathiyah": 45,
+    "jasiya": 45,
 
     "ahqaf": 46,
+    "ahqaaf": 46,
 
     "muhammad": 47,
+    "mohammad": 47,
 
     "fath": 48,
+    "al fath": 48,
 
     "hujurat": 49,
+    "hujraat": 49,
 
     "qaf": 50,
+    "qaaf": 50,
 
     "dhariyat": 51,
     "zariyat": 51,
+    "dhariyaat": 51,
 
     "tur": 52,
+    "toor": 52,
 
     "najm": 53,
 
@@ -160,36 +216,49 @@ const surahList = {
 
     "rahman": 55,
     "rehman": 55,
+    "rahmaan": 55,
+    "rehmaan": 55,
     "ar rahman": 55,
     "ar rehman": 55,
-    "surah rahman": 55,
-    "surah rehman": 55,
-    "surat rahman": 55,
-    "surat rehman": 55,
+    "ar rahmaan": 55,
+    "ar rehmaan": 55,
 
     "waqiah": 56,
     "waqia": 56,
+    "waqiya": 56,
+    "waqiah": 56,
 
     "hadid": 57,
+    "hadeed": 57,
 
     "mujadilah": 58,
+    "mujadila": 58,
 
     "hashr": 59,
+    "al hashr": 59,
 
     "mumtahanah": 60,
+    "mumtahina": 60,
 
     "saff": 61,
+    "as saff": 61,
 
     "jumuah": 62,
+    "jummah": 62,
     "jumma": 62,
+    "juma": 62,
 
     "munafiqun": 63,
+    "munafiqoon": 63,
 
     "taghabun": 64,
+    "taghaabun": 64,
 
     "talaq": 65,
+    "talaaq": 65,
 
     "tahrim": 66,
+    "tahreem": 66,
 
     "mulk": 67,
     "al mulk": 67,
@@ -197,28 +266,40 @@ const surahList = {
     "qalam": 68,
 
     "haqqah": 69,
+    "haqqa": 69,
 
     "maarij": 70,
+    "marij": 70,
 
     "nuh": 71,
+    "nooh": 71,
 
     "jinn": 72,
+    "jin": 72,
 
     "muzzammil": 73,
+    "muzammil": 73,
 
     "muddaththir": 74,
+    "mudassir": 74,
+    "muddassir": 74,
 
     "qiyamah": 75,
     "qiyama": 75,
+    "qiyamat": 75,
 
     "insan": 76,
+    "insaan": 76,
 
     "mursalat": 77,
 
     "naba": 78,
+    "nabae": 78,
 
     "naziat": 79,
+    "naziyat": 79,
 
+    "abasa": 80,
     "abasa": 80,
 
     "takwir": 81,
@@ -230,12 +311,16 @@ const surahList = {
     "inshiqaq": 84,
 
     "buruj": 85,
+    "burooj": 85,
 
     "tariq": 86,
+    "taariq": 86,
 
     "ala": 87,
+    "aala": 87,
 
     "ghashiyah": 88,
+    "ghashia": 88,
 
     "fajr": 89,
 
@@ -245,53 +330,77 @@ const surahList = {
 
     "layl": 92,
     "lail": 92,
+    "leil": 92,
 
     "duha": 93,
+    "doha": 93,
 
     "sharh": 94,
     "inshirah": 94,
+    "alam nashrah": 94,
 
     "tin": 95,
 
     "alaq": 96,
+    "alaq": 96,
 
     "qadr": 97,
+    "qadar": 97,
 
+    "bayyinah": 98,
     "bayyinah": 98,
 
     "zalzalah": 99,
+    "zalzala": 99,
 
     "adiyat": 100,
 
     "qariah": 101,
+    "qariyah": 101,
 
     "takathur": 102,
+    "takasur": 102,
 
     "asr": 103,
 
     "humazah": 104,
+    "humaza": 104,
 
     "fil": 105,
+    "feel": 105,
 
     "quraish": 106,
+    "quraysh": 106,
 
     "maun": 107,
+    "maooun": 107,
 
     "kawthar": 108,
+    "kausar": 108,
+    "kousar": 108,
 
     "kafirun": 109,
+    "kaafiroon": 109,
+    "kafiroon": 109,
 
     "nasr": 110,
 
     "masad": 111,
     "lahab": 111,
+    "tabbat": 111,
 
     "ikhlas": 112,
-    "ikhlas": 112,
+    "ikhlaas": 112,
 
     "falaq": 113,
+    "falaq": 113,
 
-    "nas": 114
+    "nas": 114,
+    "naas": 114,
+    "naas": 114,
+    "an nas": 114,
+    "an naas": 114,
+    "annas": 114
 };
 
 
@@ -299,6 +408,16 @@ function normalizeText(text) {
     return text
         .toLowerCase()
         .replace(/[?,.!]/g, " ")
+        .replace(/[-]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+}
+
+
+function normalizeSurahName(name) {
+    return name
+        .toLowerCase()
+        .replace(/[-]/g, " ")
         .replace(/\s+/g, " ")
         .trim();
 }
@@ -317,6 +436,19 @@ function parseCommand(command) {
 
 
     // =========================================
+    // REMOVE COMMAND WORDS
+    // =========================================
+
+    const cleanedText = text
+        .replace(/\bsurah\b/g, " ")
+        .replace(/\bsurat\b/g, " ")
+        .replace(/\bquran\b/g, " ")
+        .replace(/\bthe\b/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+
+    // =========================================
     // SURAH DETECTION
     // =========================================
 
@@ -329,25 +461,61 @@ function parseCommand(command) {
     for (const name of sortedSurahs) {
 
         const normalizedName =
-            name
-                .toLowerCase()
-                .replace(/[-]/g, " ")
-                .replace(/\s+/g, " ")
-                .trim();
+            normalizeSurahName(name);
 
-        const compactName =
-            normalizedName.replace(/\s+/g, "");
+        const escapedName =
+            normalizedName.replace(
+                /[.*+?^${}()|[\]\\]/g,
+                "\\$&"
+            );
 
+        const nameRegex =
+            new RegExp(
+                `(^|\\s)${escapedName}(?=\\s|$)`,
+                "i"
+            );
 
         if (
-            text.includes(normalizedName) ||
-            text.includes(compactName)
+            nameRegex.test(cleanedText)
         ) {
 
             surah = surahList[name];
             surahName = name;
 
             break;
+        }
+    }
+
+
+    // =========================================
+    // SPECIAL SPEECH RECOGNITION FIXES
+    // =========================================
+
+    if (!surah) {
+
+        const compactText =
+            cleanedText.replace(/\s+/g, "");
+
+        if (
+            compactText.includes("annas") ||
+            compactText.includes("alnas")
+        ) {
+            surah = 114;
+            surahName = "nas";
+        }
+
+        else if (
+            compactText.includes("naas")
+        ) {
+            surah = 114;
+            surahName = "naas";
+        }
+
+        else if (
+            compactText.includes("nass")
+        ) {
+            surah = 114;
+            surahName = "nas";
         }
     }
 
@@ -379,10 +547,6 @@ function parseCommand(command) {
 
     // =========================================
     // RANGE
-    // 27 to 29
-    // 27 through 29
-    // 27 se 29
-    // 27 se 29 tak
     // =========================================
 
     let match = text.match(
@@ -405,8 +569,6 @@ function parseCommand(command) {
 
     // =========================================
     // AND
-    // 27 and 28
-    // 27 aur 28
     // =========================================
 
     if (!type) {
@@ -432,10 +594,6 @@ function parseCommand(command) {
 
     // =========================================
     // MULTIPLE CONSECUTIVE AYAT
-    //
-    // Ayat 27 28 29
-    // Ayah 27 28 29
-    // Ayat number 27 28 29
     // =========================================
 
     if (!type) {
@@ -473,11 +631,6 @@ function parseCommand(command) {
 
     // =========================================
     // ONWARDS
-    //
-    // Ayat 27 onwards
-    // Ayat 27 and onwards
-    // Ayat 27 se aage
-    // Ayat 27 se agay
     // =========================================
 
     if (!type) {
@@ -534,9 +687,6 @@ function parseCommand(command) {
 
     // =========================================
     // UNTIL
-    //
-    // Until ayah 20
-    // Up to ayah 20
     // =========================================
 
     if (!type) {
@@ -604,9 +754,6 @@ function parseCommand(command) {
 
     // =========================================
     // ROMAN URDU
-    //
-    // Rahman ki ayat 15
-    // Rahman ki ayat number 15
     // =========================================
 
     if (!type) {
@@ -640,10 +787,6 @@ function parseCommand(command) {
 
     // =========================================
     // STANDARD SINGLE AYAH
-    //
-    // Ayat 15
-    // Ayah number 15
-    // Verse 15
     // =========================================
 
     if (!type) {
@@ -678,14 +821,17 @@ function parseCommand(command) {
     }
 
 
-    console.log("FINAL PARSED COMMAND:", {
-        type,
-        surah,
-        surahName,
-        startAyah,
-        endAyah,
-        onwards
-    });
+    console.log(
+        "FINAL PARSED COMMAND:",
+        {
+            type,
+            surah,
+            surahName,
+            startAyah,
+            endAyah,
+            onwards
+        }
+    );
 
 
     return {
